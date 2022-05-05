@@ -7,19 +7,22 @@ import javafx.scene.paint.Color;
 
 public class O extends Tetramino {
 
-    private Point[][] shape;
+    private Point[] shapePoints;
     public final String shapeName = "O";
 
     public O(){
-        Color c = getRandomColor();
-        shape = new Point[][]{{new Point(c, true), new Point(c, true)},
-                              {new Point(c, true), new Point(c, true)}};
+        Color c = Color.YELLOW;
+        shapePoints = new Point[]{new Point(c, 0, 0), new Point(c, 0, 1),
+                            new Point(c, 1, 0), new Point(c, 1, 1)};
     }
 
     @Override
-    public Point[][] getShape(){
-        return shape;
-    };
+    public Tetramino moveDown() {
+        return null;
+    }
 
-
+    @Override
+    public Point[] calcPoints() {
+        return new Point[0];
+    }
 }

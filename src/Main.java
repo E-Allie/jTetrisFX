@@ -1,4 +1,6 @@
 import Logic.Board;
+import Logic.Tetramino;
+import Shapes.I;
 import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
@@ -19,20 +21,7 @@ import javafx.util.Duration;
 import java.util.Random;
 
 public class Main extends Application {
-/*
-    @Override
-    public void start(Stage primaryStage) {
 
-        try {
-            BorderPane root = new BorderPane();
-            Scene scene = new Scene(root,900,900);
-            scene.getStylesheets().add(getClass().getResource("Resources/application.css").toExternalForm());
-            primaryStage.setScene(scene);
-            primaryStage.show();
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-    }*/
 
     //Declare our fundamental variables that will need Global State
     //It's either this or wrapper classes because of pass-by-value
@@ -44,6 +33,7 @@ public class Main extends Application {
 
     private Scene scene;
     private Stage stage;
+
 
     //These next 2 lines are tests remove from final code
     Random rand = new Random();
@@ -110,10 +100,10 @@ public class Main extends Application {
 
                 //Now the Rectangle has a internal color. Need to give it a border:
                 rect.setStrokeWidth(2);
-                //rect.setStroke(Color.WHITE);
+                rect.setStroke(Color.WHITE);
 
                 //This is a test
-                rect.setStroke(colorList[rand.nextInt(colorList.length)]);
+                //rect.setStroke(colorList[rand.nextInt(colorList.length)]);
 
 
                 grid.add(rect, col, row);

@@ -7,20 +7,21 @@ import javafx.scene.paint.Color;
 
 public class L extends Tetramino {
 
-    private Point[][] shape;
+    private Point[] shapePoints;
     public final String shapeName = "L";
 
     public L(){
-        Color c = getRandomColor();
-        shape = new Point[][]{{new Point(c, true)},
-                              {new Point(c, true)},
-                              {new Point(c, true)}, {new Point(c, true)}};
+        Color c = Color.ORANGE;
+        shapePoints = null;
     }
 
     @Override
-    public Point[][] getShape(){
-        return shape;
-    };
+    public Tetramino moveDown() {
+        return null;
+    }
 
-
+    @Override
+    public Point[] calcPoints() {
+        return new Point[0];
+    }
 }
