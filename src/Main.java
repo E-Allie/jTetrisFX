@@ -1,3 +1,4 @@
+import Exceptions.initPlaceCollision;
 import Logic.Board;
 import Logic.Tetramino;
 import Shapes.I;
@@ -28,9 +29,7 @@ public class Main extends Application {
     //Both are ugly
     private Board tetrisBoard;
     private GridPane grid;
-
     private FlowPane flowpane;
-
     private Scene scene;
     private Stage stage;
 
@@ -70,6 +69,12 @@ public class Main extends Application {
                         if (event.getCode() == KeyCode.ESCAPE){
                             Platform.exit();
                         };
+                        /**
+                         * Rotate piece Counterclockwise on A press.
+                         */
+                        if (event.getCode() == KeyCode.A) {
+                            tetrisBoard = tetrisBoard.pieceCounterOrClockwise(true);
+                        }
                     }
                 }
         );
@@ -79,6 +84,12 @@ public class Main extends Application {
          * Here we handle the Actual Game Loop. Runs the "event" every second by default.
          */
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+            try{
+                tetrisBoard = tetrisBoard.pieceFall();
+            } catch (initPlaceCollision e) {
+                System.out.println("HANDLE GAME OVER");
+
+            }
             draw();
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
@@ -93,12 +104,14 @@ public class Main extends Application {
             for(int col = 0; col < tetrisBoard.getPointArray()[row].length; col++) {
 
                 //Create a square as the tetris point
-                Rectangle rect = new Rectangle(50,50);
+                //TODO: Change the overall size based on screen resolution
+                Rectangle rect = new Rectangle(30,30);
 
                 //Set the color of the point
                 rect.setFill(tetrisBoard.getPoint(row,col).getColor());
 
                 //Now the Rectangle has a internal color. Need to give it a border:
+                //TODO: This should also be a function of screen res
                 rect.setStrokeWidth(2);
                 rect.setStroke(Color.WHITE);
 

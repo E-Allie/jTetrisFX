@@ -54,6 +54,14 @@ public class Point {
     }
 
     /**
+     * Helper function to set point color
+     * @return The color of the point
+     */
+    public void setColor(Color c) {
+        this.c = c;
+    }
+
+    /**
      * Helper function to get if point is occupied.
      * @return If point is occupied.
      */
@@ -83,14 +91,14 @@ public class Point {
      * @return Adjacent point.
      */
     public Point getAbove() {
-        return new Point(this.row + 1, this.col);
+        return new Point(this.row - 1, this.col);
     }
 
     /**
      * @see #getAbove()
      */
     public Point getBelow() {
-        return new Point(this.row - 1, this.col);
+        return new Point(this.row + 1, this.col);
     }
 
     /**
@@ -128,5 +136,13 @@ public class Point {
     @Override
     public int hashCode() {
         return Objects.hash(occupied, row, col);
+    }
+
+    @Override
+    public String toString() {
+        return "Point{" +
+                "row=" + row +
+                ", col=" + col +
+                '}';
     }
 }
