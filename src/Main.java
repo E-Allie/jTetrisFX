@@ -74,6 +74,26 @@ public class Main extends Application {
                          */
                         if (event.getCode() == KeyCode.A) {
                             tetrisBoard = tetrisBoard.pieceCounterOrClockwise(true);
+                            System.out.println("APRESSED");
+                            draw();
+                        }
+
+                        /**
+                         * Rotate piece clockwise on D press
+                         */
+                        if (event.getCode() == KeyCode.D) {
+                            tetrisBoard = tetrisBoard.pieceCounterOrClockwise(false);
+                            System.out.println("DPRESSED");
+                            draw();
+                        }
+
+                        /**
+                         * Force piece down on S press
+                         */
+                        if (event.getCode() == KeyCode.S || event.getCode() == KeyCode.DOWN) {
+                            tetrisBoard = tetrisBoard.pieceDown();
+                            System.out.println("DOWNPRESSED");
+                            draw();
                         }
                     }
                 }
@@ -85,7 +105,7 @@ public class Main extends Application {
          */
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
             try{
-                tetrisBoard = tetrisBoard.pieceFall();
+                tetrisBoard = tetrisBoard.piecePlaceAndFall();
             } catch (initPlaceCollision e) {
                 System.out.println("HANDLE GAME OVER");
 

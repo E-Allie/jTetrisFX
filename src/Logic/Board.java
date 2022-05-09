@@ -2,6 +2,7 @@ package Logic;
 
 import Exceptions.initPlaceCollision;
 import Tetraminoes.ITetramino;
+import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -97,6 +98,20 @@ public class Board {
                 .forEach(x -> Arrays.setAll(tempGrid[x], y -> new Point()));
 
 
+        /**
+         * Add Real Point Borders to the Grid
+         */
+        for (int row = 0; row < tempGrid.length; row++) {
+            tempGrid[row][0] = new Point(Color.DARKGREY, row, 0);
+            tempGrid[row][cols-1] = new Point(Color.DARKGREY, row, cols-1);
+        }
+
+        for(int col = 0; col < tempGrid[rows-1].length; col++) {
+            tempGrid[rows-1][col] = new Point(Color.DARKGREY, rows-1, col);
+        }
+
+
+
         return tempGrid;
     }
 
@@ -118,6 +133,28 @@ public class Board {
         return boardGrid[row][col];
     }
 
+    /**
+     * Helper functions to add/remove a tetramino from the grid.
+     *
+     * Note: These are 2 of the very FEW callable functions that DO mutate the board grid in place.
+     * Make note of this when using.
+     * @param tetramino The Given Tetramino
+     */
+    public void removeTetramino(newTetramino tetramino) {
+        for (Point point : tetramino.getShapePoints()) {
+            boardGrid[point.getRow()][point.getCol()] = new Point();
+        }
+    }
+
+    /**
+     * @see #removeTetramino(newTetramino)
+     */
+    public void addTetramino(newTetramino tetramino) {
+        for (Point point : tetramino.getShapePoints()) {
+            boardGrid[point.getRow()][point.getCol()] = point;
+        }
+    }
+
 
     /**
      * Helper function to be called when a piece is needed from the bag.
@@ -126,6 +163,7 @@ public class Board {
      * This is Tetris Specification Compliant.
      */
     private newTetramino retrieveFromBag() {
+
         if(bagOfPieces.isEmpty()) {
             bagOfPieces = new ArrayList<>(List.of(new ITetramino(new Point(), newTetramino.RotationState.O)));
         }
@@ -137,25 +175,23 @@ public class Board {
      * Adds a piece if there is no piece, moves piece down 1 if there is one.
      * @return A new board with the modified change
      */
-    public Board pieceFall() throws initPlaceCollision {
+    public Board piecePlaceAndFall() throws initPlaceCollision {
 
         /**
          * If no piece is falling, try to add a new piece from the bag.
          * If a piece IS falling, try to move it down one.
          */
-        if(!isPieceFalling) {
 
+        if(!isPieceFalling) {
             //Integer division rounding is acceptable here.
-            newTetramino shapeToAdd = bagOfPieces.remove(0).newCenter(3, totalCols/2);
+            newTetramino shapeToAdd = retrieveFromBag().newCenter(3, totalCols/2);
 
             /**
              * If the points can be added to the grid, returns a new Board with updated board grid and falling tetramino state.
              * If it CANT be added, throw an exception. This should lead to a game over state.
              */
             if (canPointsToGrid(shapeToAdd.getShapePoints())){
-                for (Point point: shapeToAdd.getShapePoints()) {
-                    boardGrid[point.getRow()][point.getCol()] = point;
-                }
+                addTetramino(shapeToAdd);
                 return new Board(boardGrid,
                                 shapeToAdd, //The Falling Tetramino
                                 bagOfPieces,
@@ -168,50 +204,55 @@ public class Board {
             }
 
         } else {
-            newTetramino downedShape = fallingTetramino.moveDown();
-            System.out.println(downedShape);
-            System.out.println(fallingTetramino);
+            //If there IS ALREADY a piece falling, make it move down if possible.
+            return pieceDown();
+        }
+    }
 
+    /**
+     * Attempts to move a piece down.
+     * If it is possible, returns a new Board with the piece moved down.
+     */
+    public Board pieceDown() {
+        newTetramino downedShape = fallingTetramino.moveDown();
+
+        /**
+         * We must first remove the falling tetramino from the grid to check if the new state is possible.
+         *
+         * If the down shifted state is possible, add it to the grid.
+         *
+         * If it isn't, re-add the original tetramino.
+         */
+
+        removeTetramino(fallingTetramino);
+
+        if (canPointsToGrid(downedShape.getShapePoints())) {
+
+            addTetramino(downedShape);
+
+            return new Board(boardGrid,
+                    downedShape, //The Falling Tetramino
+                    bagOfPieces,
+                    true, //Whether a tetramino is falling
+                    totalRows,
+                    totalCols
+            );
+        } else {
             /**
-             * If the down shifted state is possible,
-             * Remove the old tetramino points from the grid
-             * Add the new ones, and return the new board.
+             * If the down-shifted state is IMpossible,
+             * Again re-add the original removed fallingtetraminp
+             * Return a new board with isPieceFalling Reset.
              */
-            if (canPointsToGrid(downedShape.getShapePoints())) {
-                /**
-                 * Sequential for loops are needed, as there is a chance a new point is also an old point.
-                 * If we were to merge the loops as is, points could go missing.
-                 */
-                for (Point point : fallingTetramino.getShapePoints()) {
-                    boardGrid[point.getRow()][point.getCol()] = new Point();
-                }
 
-                for (Point point : downedShape.getShapePoints()) {
-                    point.setColor(downedShape.getColor());
-                    boardGrid[point.getRow()][point.getCol()] = point;
-                }
+            addTetramino(fallingTetramino);
 
-                return new Board(boardGrid,
-                        downedShape, //The Falling Tetramino
-                        bagOfPieces,
-                        true, //Whether a tetramino is falling
-                        totalRows,
-                        totalCols
-                );
-            } else {
-                /**
-                 * If the down-shifted state is IMpossible,
-                 * Return a new board with isPieceFalling Reset.
-                 */
-
-                return new Board(boardGrid,
-                        null, //The Falling Tetramino
-                        bagOfPieces,
-                        false, //Whether a tetramino is falling
-                        totalRows,
-                        totalCols
-                );
-            }
+            return new Board(boardGrid,
+                    null, //The Falling Tetramino
+                    bagOfPieces,
+                    false, //Whether a tetramino is falling
+                    totalRows,
+                    totalCols
+            );
         }
     }
 
@@ -236,40 +277,40 @@ public class Board {
          * If a piece is actually falling and the rotated tetramino can be placed,
          * Clear the grid of the old tetramino, add the new one, and return the new board.
          * Otherwise, return an exact copy of the existing board.
+         *
+         * In order to check if the new piece can be placed, we must first 0 out the old locations.
          */
 
-        if(isPieceFalling && canPointsToGrid(rotateTet.getShapePoints())) {
+        if(isPieceFalling) {
+            removeTetramino(fallingTetramino);
+
             /**
-             * Sequential for loops are needed, as there is a chance a new point is also an old point.
-             * If we were to merge the loops as is, points could go missing.
+             * If the Grid can take the rotates tet, insert it.
+             * If it can't, return the original falling tetramino.
              */
-            for (Point point : fallingTetramino.getShapePoints()) {
-                boardGrid[point.getRow()][point.getCol()] = new Point();
-            }
+            if(canPointsToGrid(rotateTet.getShapePoints())) {
+                addTetramino(rotateTet);
+                return new Board(
+                        boardGrid,
+                        rotateTet, //The Falling Tetramino
+                        bagOfPieces,
+                        true, //Whether a tetramino is falling
+                        totalRows,
+                        totalCols
+                );
 
-            for (Point point : rotateTet.getShapePoints()) {
-                boardGrid[point.getRow()][point.getCol()] = point;
+            } else {
+                addTetramino(fallingTetramino);
             }
-
-            return new Board(boardGrid,
-                    rotateTet, //The Falling Tetramino
-                    bagOfPieces,
-                    true, //Whether a tetramino is falling
-                    totalRows,
-                    totalCols
-            );
-        } else {
-            return new Board(
-                    boardGrid,
-                    fallingTetramino,
-                    bagOfPieces,
-                    isPieceFalling,
-                    totalRows,
-                    totalCols
-            );
         }
-
-
+        return new Board(
+                boardGrid,
+                fallingTetramino,
+                bagOfPieces,
+                isPieceFalling,
+                totalRows,
+                totalCols
+        );
     }
 
     /**
@@ -279,7 +320,8 @@ public class Board {
      */
     private boolean canPointsToGrid(Point[] points) {
         for (Point point: points) {
-            if (boardGrid[point.getRow()][point.getCol()] == point) {
+            if (boardGrid[point.getRow()][point.getCol()].isOccupied()) {
+                System.out.println(boardGrid[point.getRow()][point.getCol()].isOccupied());
                 return false;
             }
         }

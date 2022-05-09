@@ -55,7 +55,6 @@ public class Point {
 
     /**
      * Helper function to set point color
-     * @return The color of the point
      */
     public void setColor(Color c) {
         this.c = c;
@@ -91,28 +90,28 @@ public class Point {
      * @return Adjacent point.
      */
     public Point getAbove() {
-        return new Point(this.row - 1, this.col);
+        return new Point(this.c, this.row - 1, this.col);
     }
 
     /**
      * @see #getAbove()
      */
     public Point getBelow() {
-        return new Point(this.row + 1, this.col);
+        return new Point(this.c, this.row + 1, this.col);
     }
 
     /**
      * @see #getAbove()
      */
     public Point getLeft() {
-        return new Point(this.row, this.col - 1);
+        return new Point(this.c, this.row, this.col - 1);
     }
 
     /**
      * @see #getAbove()
      */
     public Point getRight() {
-        return new Point(this.row, this.col + 1);
+        return new Point(this.c, this.row, this.col + 1);
     }
 
     /**
