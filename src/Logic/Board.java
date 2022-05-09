@@ -79,6 +79,13 @@ public class Board {
     private int totalRows;
     private int totalCols;
 
+    /**
+     * Helper Type[ish] to declare the direction of a movement.
+     */
+    public enum Direction {
+        Left, Right, Down
+    }
+
 
 
     /**
@@ -205,33 +212,44 @@ public class Board {
 
         } else {
             //If there IS ALREADY a piece falling, make it move down if possible.
-            return pieceDown();
+            return pieceLDR(Direction.Down);
         }
     }
 
     /**
-     * Attempts to move a piece down.
-     * If it is possible, returns a new Board with the piece moved down.
+     * Attempts to move a piece Left, Down, Or Right.
+     * If it is possible, returns a new Board with the piece moved in the direction.
      */
-    public Board pieceDown() {
-        newTetramino downedShape = fallingTetramino.moveDown();
+    public Board pieceLDR(Direction direction) {
+        newTetramino movedShape;
+
+        switch(direction) {
+            case Left:
+                movedShape = fallingTetramino.moveLeft();
+                break;
+            case Right:
+                movedShape = fallingTetramino.moveRight();
+                break;
+            default:
+                movedShape = fallingTetramino.moveDown();
+        }
 
         /**
          * We must first remove the falling tetramino from the grid to check if the new state is possible.
          *
-         * If the down shifted state is possible, add it to the grid.
+         * If the new state is possible, add it to the grid.
          *
          * If it isn't, re-add the original tetramino.
          */
 
         removeTetramino(fallingTetramino);
 
-        if (canPointsToGrid(downedShape.getShapePoints())) {
+        if (canPointsToGrid(movedShape.getShapePoints())) {
 
-            addTetramino(downedShape);
+            addTetramino(movedShape);
 
             return new Board(boardGrid,
-                    downedShape, //The Falling Tetramino
+                    movedShape, //The Falling Tetramino
                     bagOfPieces,
                     true, //Whether a tetramino is falling
                     totalRows,
@@ -239,17 +257,17 @@ public class Board {
             );
         } else {
             /**
-             * If the down-shifted state is IMpossible,
-             * Again re-add the original removed fallingtetraminp
-             * Return a new board with isPieceFalling Reset.
+             * If the new state is IMpossible,
+             * Again re-add the original removed fallingtetramino.
+             * Return a new board, with isPieceFalling Reset IF it was a failed Downshift.
              */
 
             addTetramino(fallingTetramino);
 
             return new Board(boardGrid,
-                    null, //The Falling Tetramino
+                    (direction == Direction.Down) ? null : fallingTetramino, //The Falling Tetramino
                     bagOfPieces,
-                    false, //Whether a tetramino is falling
+                    direction != Direction.Down, //Whether a tetramino is falling
                     totalRows,
                     totalCols
             );

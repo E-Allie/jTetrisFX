@@ -1,7 +1,6 @@
 package Tetraminoes;
 
 import Logic.Point;
-import Logic.Tetramino;
 import Logic.newTetramino;
 import javafx.scene.paint.Color;
 

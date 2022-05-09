@@ -1,9 +1,6 @@
 import Exceptions.initPlaceCollision;
 import Logic.Board;
-import Logic.Tetramino;
-import Shapes.I;
 import javafx.animation.Animation;
-import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -88,11 +85,23 @@ public class Main extends Application {
                         }
 
                         /**
-                         * Force piece down on S press
+                         * Force piece down on S or Down press
                          */
                         if (event.getCode() == KeyCode.S || event.getCode() == KeyCode.DOWN) {
-                            tetrisBoard = tetrisBoard.pieceDown();
+                            tetrisBoard = tetrisBoard.pieceLDR(Board.Direction.Down);
                             System.out.println("DOWNPRESSED");
+                            draw();
+                        }
+
+                        if (event.getCode() == KeyCode.LEFT) {
+                            tetrisBoard = tetrisBoard.pieceLDR(Board.Direction.Left);
+                            System.out.println("LeftPRESSED");
+                            draw();
+                        }
+
+                        if (event.getCode() == KeyCode.RIGHT) {
+                            tetrisBoard = tetrisBoard.pieceLDR(Board.Direction.Right);
+                            System.out.println("RightPRESSED");
                             draw();
                         }
                     }
