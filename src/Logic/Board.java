@@ -1,7 +1,8 @@
 package Logic;
 
 import Exceptions.initPlaceCollision;
-import Tetraminoes.ITetramino;
+import Logic.Tetraminoes.ITetramino;
+import Logic.Tetraminoes.Tetramino;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class Board {
         isPieceFalling = false;
         totalRows = 20;
         totalCols = 10;
-        bagOfPieces = new ArrayList<>(List.of(new ITetramino(new Point(), newTetramino.RotationState.O)));
+        bagOfPieces = new ArrayList<>(List.of(new ITetramino(new Point(), Tetramino.RotationState.O)));
     }
 
     /**
@@ -34,7 +35,7 @@ public class Board {
         isPieceFalling = false;
         totalRows = rows;
         totalCols = cols;
-        bagOfPieces = new ArrayList<>(List.of(new ITetramino(new Point(), newTetramino.RotationState.O)));
+        bagOfPieces = new ArrayList<>(List.of(new ITetramino(new Point(), Tetramino.RotationState.O)));
     }
 
     /**
@@ -47,7 +48,7 @@ public class Board {
      * @param totalRows
      * @param totalCols
      */
-    public Board(Point[][] boardGrid, newTetramino fallingTetramino, ArrayList<newTetramino> bagOfPieces, boolean isPieceFalling, int totalRows, int totalCols) {
+    public Board(Point[][] boardGrid, Tetramino fallingTetramino, ArrayList<Tetramino> bagOfPieces, boolean isPieceFalling, int totalRows, int totalCols) {
         this.boardGrid = boardGrid;
         this.fallingTetramino = fallingTetramino;
         this.bagOfPieces = bagOfPieces;
@@ -66,14 +67,14 @@ public class Board {
     /**
      * The Active Tetramino Falling.
      */
-    private newTetramino fallingTetramino;
+    private Tetramino fallingTetramino;
 
     /**
      * This will contain spawnable pieces.
      * The tetris standard denotes we have a shuffled bag of the 7 tetraminos.
      * We refill the bag when empty.
      */
-    private ArrayList<newTetramino> bagOfPieces;
+    private ArrayList<Tetramino> bagOfPieces;
     public boolean isPieceFalling;
 
     private int totalRows;
@@ -147,16 +148,16 @@ public class Board {
      * Make note of this when using.
      * @param tetramino The Given Tetramino
      */
-    public void removeTetramino(newTetramino tetramino) {
+    public void removeTetramino(Tetramino tetramino) {
         for (Point point : tetramino.getShapePoints()) {
             boardGrid[point.getRow()][point.getCol()] = new Point();
         }
     }
 
     /**
-     * @see #removeTetramino(newTetramino)
+     * @see #removeTetramino(Tetramino)
      */
-    public void addTetramino(newTetramino tetramino) {
+    public void addTetramino(Tetramino tetramino) {
         for (Point point : tetramino.getShapePoints()) {
             boardGrid[point.getRow()][point.getCol()] = point;
         }
@@ -169,10 +170,10 @@ public class Board {
      * Refills the board's bag with a randomly ordered list of all tetraminoes when it is empty.
      * This is Tetris Specification Compliant.
      */
-    private newTetramino retrieveFromBag() {
+    private Tetramino retrieveFromBag() {
 
         if(bagOfPieces.isEmpty()) {
-            bagOfPieces = new ArrayList<>(List.of(new ITetramino(new Point(), newTetramino.RotationState.O)));
+            bagOfPieces = new ArrayList<>(List.of(new ITetramino(new Point(), Tetramino.RotationState.O)));
         }
         return bagOfPieces.remove(0);
     }
@@ -191,7 +192,7 @@ public class Board {
 
         if(!isPieceFalling) {
             //Integer division rounding is acceptable here.
-            newTetramino shapeToAdd = retrieveFromBag().newCenter(3, totalCols/2);
+            Tetramino shapeToAdd = retrieveFromBag().newCenter(3, totalCols/2);
 
             /**
              * If the points can be added to the grid, returns a new Board with updated board grid and falling tetramino state.
@@ -221,7 +222,7 @@ public class Board {
      * If it is possible, returns a new Board with the piece moved in the direction.
      */
     public Board pieceLDR(Direction direction) {
-        newTetramino movedShape;
+        Tetramino movedShape;
 
         switch(direction) {
             case Left:
@@ -283,7 +284,7 @@ public class Board {
      */
     public Board pieceCounterOrClockwise(boolean counter) {
 
-        newTetramino rotateTet;
+        Tetramino rotateTet;
 
         if(counter){
             rotateTet = fallingTetramino.rotateCounterclockwise();

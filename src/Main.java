@@ -22,18 +22,13 @@ public class Main extends Application {
 
 
     //Declare our fundamental variables that will need Global State
-    //It's either this or wrapper classes because of pass-by-value
-    //Both are ugly
+
     private Board tetrisBoard;
     private GridPane grid;
     private FlowPane flowpane;
     private Scene scene;
     private Stage stage;
 
-
-    //These next 2 lines are tests remove from final code
-    Random rand = new Random();
-    public final Color[] colorList = {Color.BLUE, Color.GREEN, Color.PURPLE, Color.RED};
 
     @Override
     public void start(Stage primaryStage) {
@@ -45,6 +40,8 @@ public class Main extends Application {
         //Create a Grid view
         grid = new GridPane();
         stage = primaryStage;
+
+
 
         startGameLoop();
 
@@ -126,7 +123,19 @@ public class Main extends Application {
 
     }
 
+
+
+    /**
+     * A function to be called every draw-frame.
+     * Destructs the old elements of the grid from last draw.
+     * Then adds the "new" board.
+     */
     public void draw() {
+
+        /**
+         * This line is incredibly necessary. Without it, every previous grid "exists", stacked under the "top" grid.
+         */
+        grid.getChildren().clear();
 
         //Go through the model, using its values to initialize the view
         for(int row = 0; row < tetrisBoard.getPointArray().length; row++) {
@@ -144,7 +153,7 @@ public class Main extends Application {
                 rect.setStrokeWidth(2);
                 rect.setStroke(Color.WHITE);
 
-                //This is a test
+                //This is a test2
                 //rect.setStroke(colorList[rand.nextInt(colorList.length)]);
 
 
@@ -152,7 +161,6 @@ public class Main extends Application {
             }
         }
 
-        //scene = new Scene(grid);  //scene will have dimensions equal to the grid
 
         stage.setScene(scene);
         stage.show();
