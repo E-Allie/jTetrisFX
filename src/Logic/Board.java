@@ -16,43 +16,49 @@ public class Board {
      * Generates a board of width 10 and height 20.
      */
     public Board() {
-        boardGrid = initBoardGrid(20,10);
+        boardGrid = initBoardGrid(21,12);
         isPieceFalling = false;
-        totalRows = 20;
-        totalCols = 10;
+        totalRows = 21;
+        totalCols = 12;
         bag = new BagofPieces();
+        points = 0;
     }
 
     /**
      * Arbitrary Size Initial Logic.Board Constructor.
-     * @param rows The height of the board.
-     * @param cols The width of the board.
+     * We add 1 and 2 to row and col to allocate a border in the grid.
+     * @param rows The height of the playable board.
+     * @param cols The width of the playable board.
      */
     public Board(int rows, int cols) {
-        boardGrid = initBoardGrid(rows,cols);
+        boardGrid = initBoardGrid(rows+1,cols+2);
         isPieceFalling = false;
-        totalRows = rows;
-        totalCols = cols;
+        totalRows = rows+1;
+        totalCols = cols+2;
         bag = new BagofPieces();
+        points = 0;
     }
 
     /**
      * A Total Board Constructor. It will give a new board with every member class caller set.
      * This is useful for the functional return of new boards.
+     *
      * @param boardGrid
      * @param fallingTetramino
      * @param bag
      * @param isPieceFalling
      * @param totalRows
      * @param totalCols
+     * @param points
      */
-    public Board(Point[][] boardGrid, Tetramino fallingTetramino, BagofPieces bag, boolean isPieceFalling, int totalRows, int totalCols) {
+    public Board(Point[][] boardGrid, Tetramino fallingTetramino, BagofPieces bag, boolean isPieceFalling, int totalRows, int totalCols, int points) {
         this.boardGrid = boardGrid;
         this.fallingTetramino = fallingTetramino;
         this.bag = bag;
         this.isPieceFalling = isPieceFalling;
         this.totalRows = totalRows;
         this.totalCols = totalCols;
+        this.points = points;
     }
 
     /**
@@ -75,8 +81,20 @@ public class Board {
     private BagofPieces bag;
     public boolean isPieceFalling;
 
+    /**
+     * Total rows and columns. Should actually be 2 or 1 greater than total playable area, for border..
+     */
     private int totalRows;
+
+    /**
+     * @see #totalRows
+     */
     private int totalCols;
+
+    /**
+     * The amount of points a player amasses.
+     */
+    private int points;
 
     /**
      * Helper Type[ish] to declare the direction of a movement.
@@ -179,6 +197,7 @@ public class Board {
             //Integer division rounding is acceptable here.
             Tetramino shapeToAdd = bag.retrieveFromBag().newCenter(3, totalCols/2);
 
+
             /**
              * If the points can be added to the grid, returns a new Board with updated board grid and falling tetramino state.
              * If it CANT be added, throw an exception. This should lead to a game over state.
@@ -190,8 +209,9 @@ public class Board {
                                 bag,
                                 true, //Whether a tetramino is falling
                                 totalRows,
-                                totalCols
-                                );
+                                totalCols,
+                                points
+                );
             } else {
                 throw new initPlaceCollision();
             }
@@ -239,23 +259,71 @@ public class Board {
                     bag,
                     true, //Whether a tetramino is falling
                     totalRows,
-                    totalCols
+                    totalCols,
+                    points
             );
         } else {
             /**
              * If the new state is IMpossible,
              * Again re-add the original removed fallingtetramino.
              * Return a new board, with isPieceFalling Reset IF it was a failed Downshift.
+             *
+             * IF it was failed downshift, also check to see if we can remove a line and add points.
              */
 
             addTetramino(fallingTetramino);
 
+            if (direction == Direction.Down) {
+
+                int combo = 0;
+
+                //Check if a row is full
+                //Make a combo streak for points.
+                //-1 for the bottom barrier row.
+
+                //We also go from bottom to top, to have proper row shifting when a row is cleared.
+
+                for(int i = totalRows-1; i >= 0; i--) {
+                    if (Arrays.stream(boardGrid[i]).allMatch(Point::isOccupied)) {
+
+                        //Set every point to unoccupied, and re-add barriers.
+
+                        Arrays.setAll(boardGrid[i], x -> new Point());
+
+                        boardGrid[i][0] = new Point(Color.DARKGREY, i, 0);
+                        boardGrid[i][totalCols-1] = new Point(Color.DARKGREY, i, totalCols-1);
+
+                        //Then, move every above row Down.
+
+                        //TODO THIS
+
+                        combo += 1;
+                    }
+                }
+                points += combo*100;
+
+                //Return the board with pieces removed
+                return new Board(
+                        boardGrid,
+                        null,
+                        bag,
+                        false,
+                        totalRows,
+                        totalCols,
+                        points
+                );
+            }
+
+
+            //When the direction isn't down, simply return
+
             return new Board(boardGrid,
-                    (direction == Direction.Down) ? null : fallingTetramino, //The Falling Tetramino
+                    fallingTetramino, //The Falling Tetramino
                     bag,
-                    direction != Direction.Down, //Whether a tetramino is falling
+                    isPieceFalling, //Whether a tetramino is falling
                     totalRows,
-                    totalCols
+                    totalCols,
+                    points
             );
         }
     }
@@ -300,7 +368,8 @@ public class Board {
                         bag,
                         true, //Whether a tetramino is falling
                         totalRows,
-                        totalCols
+                        totalCols,
+                        points
                 );
 
             } else {
@@ -313,7 +382,8 @@ public class Board {
                 bag,
                 isPieceFalling,
                 totalRows,
-                totalCols
+                totalCols,
+                points
         );
     }
 

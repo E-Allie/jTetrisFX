@@ -4,18 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a69c8f90-b72f-4217-86ac-02d987332fd8" name="Changes" comment="Refactored Tetramino to be abstract [last time I promise]&#10;&#10;Fixed the draw function lag [by clearing old grids]">
-      <change afterPath="$PROJECT_DIR$/src/Logic/Tetraminoes/BagofPieces.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Logic/Tetraminoes/JTetramino.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Logic/Tetraminoes/LTetramino.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Logic/Tetraminoes/OTetramino.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Logic/Tetraminoes/STetramino.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Logic/Tetraminoes/TTetramino.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Logic/Tetraminoes/ZTetramino.java" afterDir="false" />
+    <list default="true" id="a69c8f90-b72f-4217-86ac-02d987332fd8" name="Changes" comment="All Tetraminoes now added and spawning.&#10;Separated the bag of pieces from the board.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Logic/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logic/Board.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Logic/Tetraminoes/ITetramino.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logic/Tetraminoes/ITetramino.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Logic/Tetraminoes/Tetramino.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logic/Tetraminoes/Tetramino.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,7 +85,7 @@
       <workItem from="1651782766421" duration="6450000" />
       <workItem from="1651800430329" duration="67000" />
       <workItem from="1651800588784" duration="9961000" />
-      <workItem from="1652366983760" duration="10420000" />
+      <workItem from="1652366983760" duration="12486000" />
     </task>
     <task id="LOCAL-00001" summary="We lay foundations to the Tetris Project.&#10;As of now we have rudimentarily implemented a board, an example keypress [just exits], and a gameloop [displays random colored tiles per second]">
       <created>1651616374055</created>
@@ -124,7 +115,14 @@
       <option name="project" value="LOCAL" />
       <updated>1652378898658</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="All Tetraminoes now added and spawning.&#10;Separated the bag of pieces from the board.">
+      <created>1652385062929</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1652385062930</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -147,7 +145,8 @@
     <MESSAGE value="A default board now has proper boundaries! [Except the top but we shall ignore that for now]&#10;&#10;Full rotation works, Down movement Works, Gravity Works, with collision" />
     <MESSAGE value="Left and right movement is now possible and functional." />
     <MESSAGE value="Refactored Tetramino to be abstract [last time I promise]&#10;&#10;Fixed the draw function lag [by clearing old grids]" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactored Tetramino to be abstract [last time I promise]&#10;&#10;Fixed the draw function lag [by clearing old grids]" />
+    <MESSAGE value="All Tetraminoes now added and spawning.&#10;Separated the bag of pieces from the board." />
+    <option name="LAST_COMMIT_MESSAGE" value="All Tetraminoes now added and spawning.&#10;Separated the bag of pieces from the board." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
