@@ -4,14 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a69c8f90-b72f-4217-86ac-02d987332fd8" name="Changes" comment="Left and right movement is now possible and functional.">
-      <change afterPath="$PROJECT_DIR$/src/Logic/Tetraminoes/Tetramino.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="a69c8f90-b72f-4217-86ac-02d987332fd8" name="Changes" comment="Refactored Tetramino to be abstract [last time I promise]&#10;&#10;Fixed the draw function lag [by clearing old grids]">
+      <change afterPath="$PROJECT_DIR$/src/Logic/Tetraminoes/BagofPieces.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Logic/Tetraminoes/JTetramino.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Logic/Tetraminoes/LTetramino.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Logic/Tetraminoes/OTetramino.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Logic/Tetraminoes/STetramino.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Logic/Tetraminoes/TTetramino.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Logic/Tetraminoes/ZTetramino.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Logic/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logic/Board.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Logic/newTetramino.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Tetraminoes/ITetramino.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logic/Tetraminoes/ITetramino.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Logic/Tetraminoes/ITetramino.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logic/Tetraminoes/ITetramino.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Logic/Tetraminoes/Tetramino.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logic/Tetraminoes/Tetramino.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,7 +94,7 @@
       <workItem from="1651782766421" duration="6450000" />
       <workItem from="1651800430329" duration="67000" />
       <workItem from="1651800588784" duration="9961000" />
-      <workItem from="1652366983760" duration="4258000" />
+      <workItem from="1652366983760" duration="10420000" />
     </task>
     <task id="LOCAL-00001" summary="We lay foundations to the Tetris Project.&#10;As of now we have rudimentarily implemented a board, an example keypress [just exits], and a gameloop [displays random colored tiles per second]">
       <created>1651616374055</created>
@@ -113,7 +117,14 @@
       <option name="project" value="LOCAL" />
       <updated>1652140174291</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Refactored Tetramino to be abstract [last time I promise]&#10;&#10;Fixed the draw function lag [by clearing old grids]">
+      <created>1652378898658</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1652378898658</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -135,7 +146,8 @@
     <MESSAGE value="The tetramino class was revamped into an interface.&#10;Most of the code was modified into a more Functional Paradigm.&#10;&#10;A piece now falls, but rotation nor array bounds detection exist." />
     <MESSAGE value="A default board now has proper boundaries! [Except the top but we shall ignore that for now]&#10;&#10;Full rotation works, Down movement Works, Gravity Works, with collision" />
     <MESSAGE value="Left and right movement is now possible and functional." />
-    <option name="LAST_COMMIT_MESSAGE" value="Left and right movement is now possible and functional." />
+    <MESSAGE value="Refactored Tetramino to be abstract [last time I promise]&#10;&#10;Fixed the draw function lag [by clearing old grids]" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactored Tetramino to be abstract [last time I promise]&#10;&#10;Fixed the draw function lag [by clearing old grids]" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

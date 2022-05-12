@@ -1,13 +1,11 @@
 package Logic;
 
 import Exceptions.initPlaceCollision;
-import Logic.Tetraminoes.ITetramino;
+import Logic.Tetraminoes.BagofPieces;
 import Logic.Tetraminoes.Tetramino;
 import javafx.scene.paint.Color;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.stream.IntStream;
 
 public class Board {
@@ -22,7 +20,7 @@ public class Board {
         isPieceFalling = false;
         totalRows = 20;
         totalCols = 10;
-        bagOfPieces = new ArrayList<>(List.of(new ITetramino(new Point(), Tetramino.RotationState.O)));
+        bag = new BagofPieces();
     }
 
     /**
@@ -35,7 +33,7 @@ public class Board {
         isPieceFalling = false;
         totalRows = rows;
         totalCols = cols;
-        bagOfPieces = new ArrayList<>(List.of(new ITetramino(new Point(), Tetramino.RotationState.O)));
+        bag = new BagofPieces();
     }
 
     /**
@@ -43,15 +41,15 @@ public class Board {
      * This is useful for the functional return of new boards.
      * @param boardGrid
      * @param fallingTetramino
-     * @param bagOfPieces
+     * @param bag
      * @param isPieceFalling
      * @param totalRows
      * @param totalCols
      */
-    public Board(Point[][] boardGrid, Tetramino fallingTetramino, ArrayList<Tetramino> bagOfPieces, boolean isPieceFalling, int totalRows, int totalCols) {
+    public Board(Point[][] boardGrid, Tetramino fallingTetramino, BagofPieces bag, boolean isPieceFalling, int totalRows, int totalCols) {
         this.boardGrid = boardGrid;
         this.fallingTetramino = fallingTetramino;
-        this.bagOfPieces = bagOfPieces;
+        this.bag = bag;
         this.isPieceFalling = isPieceFalling;
         this.totalRows = totalRows;
         this.totalCols = totalCols;
@@ -74,7 +72,7 @@ public class Board {
      * The tetris standard denotes we have a shuffled bag of the 7 tetraminos.
      * We refill the bag when empty.
      */
-    private ArrayList<Tetramino> bagOfPieces;
+    private BagofPieces bag;
     public boolean isPieceFalling;
 
     private int totalRows;
@@ -164,19 +162,6 @@ public class Board {
     }
 
 
-    /**
-     * Helper function to be called when a piece is needed from the bag.
-     * If the bag is not empty, returns the piece and removed it from the bag.
-     * Refills the board's bag with a randomly ordered list of all tetraminoes when it is empty.
-     * This is Tetris Specification Compliant.
-     */
-    private Tetramino retrieveFromBag() {
-
-        if(bagOfPieces.isEmpty()) {
-            bagOfPieces = new ArrayList<>(List.of(new ITetramino(new Point(), Tetramino.RotationState.O)));
-        }
-        return bagOfPieces.remove(0);
-    }
 
     /**
      * Piece placement.
@@ -192,7 +177,7 @@ public class Board {
 
         if(!isPieceFalling) {
             //Integer division rounding is acceptable here.
-            Tetramino shapeToAdd = retrieveFromBag().newCenter(3, totalCols/2);
+            Tetramino shapeToAdd = bag.retrieveFromBag().newCenter(3, totalCols/2);
 
             /**
              * If the points can be added to the grid, returns a new Board with updated board grid and falling tetramino state.
@@ -202,7 +187,7 @@ public class Board {
                 addTetramino(shapeToAdd);
                 return new Board(boardGrid,
                                 shapeToAdd, //The Falling Tetramino
-                                bagOfPieces,
+                                bag,
                                 true, //Whether a tetramino is falling
                                 totalRows,
                                 totalCols
@@ -251,7 +236,7 @@ public class Board {
 
             return new Board(boardGrid,
                     movedShape, //The Falling Tetramino
-                    bagOfPieces,
+                    bag,
                     true, //Whether a tetramino is falling
                     totalRows,
                     totalCols
@@ -267,7 +252,7 @@ public class Board {
 
             return new Board(boardGrid,
                     (direction == Direction.Down) ? null : fallingTetramino, //The Falling Tetramino
-                    bagOfPieces,
+                    bag,
                     direction != Direction.Down, //Whether a tetramino is falling
                     totalRows,
                     totalCols
@@ -312,7 +297,7 @@ public class Board {
                 return new Board(
                         boardGrid,
                         rotateTet, //The Falling Tetramino
-                        bagOfPieces,
+                        bag,
                         true, //Whether a tetramino is falling
                         totalRows,
                         totalCols
@@ -325,7 +310,7 @@ public class Board {
         return new Board(
                 boardGrid,
                 fallingTetramino,
-                bagOfPieces,
+                bag,
                 isPieceFalling,
                 totalRows,
                 totalCols

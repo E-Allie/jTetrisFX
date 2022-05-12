@@ -8,17 +8,23 @@ import javafx.scene.paint.Color;
  */
 public abstract class Tetramino {
 
+    public Tetramino(Color color, Point center, RotationState rotationState, TetraminoShape shape) {
+        this.color = color;
+        this.center = center;
+        this.rotationState = rotationState;
+        this.shape = shape;
+    }
 
-    private Color color;
-    private Point center;
-    private Point[] shapePoints;
+
+    private final Color color;
+    private final Point center;
 
 
     enum TetraminoShape {
-        I, L, O
+        I, L, O, J, T, Z, S
     }
 
-    private TetraminoShape shape;
+    private final TetraminoShape shape;
 
 
     /**
@@ -32,7 +38,7 @@ public abstract class Tetramino {
      *
      * The overrides are necessary to implement proper rotation state wrapping.
      */
-    public enum RotationState {
+    enum RotationState {
         O {
             @Override
             public RotationState rotateCounterClockwise() {
@@ -64,11 +70,8 @@ public abstract class Tetramino {
         }
     }
 
-    private RotationState rotationState;
+    private final RotationState rotationState;
 
-    public void setRotationState(RotationState rotationState){
-        this.rotationState = rotationState;
-    }
 
     public RotationState getRotationState() {
         return rotationState;
@@ -80,51 +83,82 @@ public abstract class Tetramino {
         return color;
     }
 
-    public TetraminoShape getShapeType() {
-        return shape;
-    }
-
-    public void setCenter(Point center) {
-        this.center = center;
-    }
     public Point getCenter() {
         return center;
     }
 
-    abstract public Tetramino newCenter(int row, int col);
+    public Tetramino newCenter(int row, int col) {
+        return createTetramino(shape, new Point(getColor(), row, col), rotationState);
+    };
 
-    /**
-     * Returns an array of every point of a tetramino.
-     * @return Point[] of the tetramino.
-     */
-    abstract public Point[] getShapePoints();
 
     /**
      * Yields a new tetramino that is either counter-or-clockwise rotated.
      * @return The rotated Tetramino [by means of updating the RotationState]
      */
-    abstract public Tetramino rotateClockwise();
+    public Tetramino rotateClockwise() {
+        return createTetramino(shape, center, rotationState.rotateClockwise());
+    };
 
     /**
      * @see #rotateClockwise()
      */
-    abstract public Tetramino rotateCounterclockwise();
+    public Tetramino rotateCounterclockwise(){
+        return createTetramino(shape, center, rotationState.rotateCounterClockwise());
+    }
 
     /**
      * Yields a new tetramino with center shifted in the requested direction.
      * @return A new tetramino with center shifted.
      */
-    abstract public Tetramino moveDown();
+    public Tetramino moveDown() {
+        return createTetramino(shape, center.getBelow(), rotationState);
+    };
 
     /**
      * @see #moveDown()
      */
-    abstract public Tetramino moveLeft();
+    public Tetramino moveLeft() {
+        return createTetramino(shape, center.getLeft(), rotationState);
+    }
 
     /**
      * @see #moveDown() 
      */
-    abstract public Tetramino moveRight();
+    public Tetramino moveRight() {
+        return createTetramino(shape, center.getRight(), rotationState);
+    }
 
+
+    protected static Tetramino createTetramino(TetraminoShape shape, Point center, Tetramino.RotationState rotationState) {
+        switch (shape) {
+            case I:
+                return new ITetramino(center, rotationState);
+            case L:
+                return new LTetramino(center, rotationState);
+            case O:
+                return new OTetramino(center, rotationState);
+            case T:
+                return new TTetramino(center, rotationState);
+            case J:
+                return new JTetramino(center, rotationState);
+            case S:
+                return new STetramino(center, rotationState);
+            case Z:
+                return new ZTetramino(center, rotationState);
+            default:
+                throw new IllegalStateException("No tetramino Shape");
+        }
+    }
+
+    /**
+     * Returns an array of every point of a tetramino, factoring in rotation state.
+     * After implementing createTetramino [not quite a factory pattern, but similar],
+     * This is the only truly abstract function
+     *
+     * All Rotation states are directly sourced from <a href="https://tetris.wiki/Super_Rotation_System">the Tetris Guidelines</a>
+     * @return Point[] of the tetramino.
+     */
+    abstract public Point[] getShapePoints();
 
 }
