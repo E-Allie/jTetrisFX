@@ -277,25 +277,23 @@ public class Board {
 
                 int combo = 0;
 
-                //Check if a row is full
-                //Make a combo streak for points.
-                //-1 for the bottom barrier row.
+                /**Check if a row is full
+                 * totalRows-2 to ignore the bottom "barrier" row.
+                 * We also loop from bottom to top, to have proper row shifting when a row is cleared.
+                 */
 
-                //We also go from bottom to top, to have proper row shifting when a row is cleared.
+                for(int i = totalRows-2; i >= 0; i--) {
 
-                for(int i = totalRows-1; i >= 0; i--) {
                     if (Arrays.stream(boardGrid[i]).allMatch(Point::isOccupied)) {
 
-                        //Set every point to unoccupied, and re-add barriers.
+                        /** If a given row is occupied, we can downshift all rows above by cloning them on top. */
+                        for(int j = i; j >= 1; j--) {
+                            boardGrid[j] = boardGrid[j-1].clone();
+                        }
 
-                        Arrays.setAll(boardGrid[i], x -> new Point());
 
-                        boardGrid[i][0] = new Point(Color.DARKGREY, i, 0);
-                        boardGrid[i][totalCols-1] = new Point(Color.DARKGREY, i, totalCols-1);
-
-                        //Then, move every above row Down.
-
-                        //TODO THIS
+                        /** We re-increment i, so the "same row", now occupied by what was above it, may be checked again for completion. */
+                        i++;
 
                         combo += 1;
                     }
@@ -315,9 +313,10 @@ public class Board {
             }
 
 
-            //When the direction isn't down, simply return
+            /** When the direction isn't down, simply return */
 
-            return new Board(boardGrid,
+            return new Board(
+                    boardGrid,
                     fallingTetramino, //The Falling Tetramino
                     bag,
                     isPieceFalling, //Whether a tetramino is falling

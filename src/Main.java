@@ -150,8 +150,8 @@ public class Main extends Application {
 
                 //Now the Rectangle has a internal color. Need to give it a border:
                 //TODO: This should also be a function of screen res
-                rect.setStrokeWidth(2);
-                rect.setStroke(Color.WHITE);
+                rect.setStrokeWidth(1);
+                rect.setStroke(Color.WHITESMOKE);
 
                 //This is a test2
                 //rect.setStroke(colorList[rand.nextInt(colorList.length)]);
