@@ -400,4 +400,13 @@ public class Board {
         }
         return true;
     }
+    
+    /**
+     * Returns the (score) point total
+     * @return Current point total
+     */
+    public int getPoints()
+    {
+        return points;
+    }
 }
