@@ -14,6 +14,8 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.control.Button;
@@ -40,6 +42,7 @@ public class Main extends Application {
     private Scene scene;
     private Stage stage;
     private Label pointsLabel;
+    private int finalScore;
 
     @Override
     public void start(Stage primaryStage) {
@@ -53,6 +56,8 @@ public class Main extends Application {
         grid = new GridPane();
         
         pointsLabel = new Label();
+
+        finalScore = 0;
 
         stage = primaryStage;
 
@@ -126,6 +131,70 @@ public class Main extends Application {
         stage.show();
     }
 
+    public void gameOver()
+    {
+        GridPane menuGrid = new GridPane();
+        BorderPane bPane = new BorderPane(menuGrid);
+
+        scene = new Scene(bPane);
+
+        Button gameRestart = new Button("RESTART GAME");
+        Button gameExit = new Button("EXIT GAME");
+
+        HBox inputs = new HBox(gameRestart, gameExit);
+        inputs.setAlignment(Pos.TOP_CENTER);
+        inputs.setSpacing(5.0);
+
+        Image gameOverImage = new Image("https://i.imgur.com/EBj9xIB.png");
+        ImageView gameOverView = new ImageView(gameOverImage);
+        gameOverView.setFitWidth(370);
+        gameOverView.setFitHeight(200);
+
+        Text points = new Text("Final Score: " + finalScore);
+        points.setFill(Color.WHITE);
+        points.setFont(Font.font("Arial", 30));
+        //I am too dumb to realize how to get the text centered without throwing it into an hbox, if u can fix before we finish then please do so
+        HBox pointBox = new HBox(points);
+        pointBox.setAlignment(Pos.TOP_CENTER);
+
+        VBox gameOver = new VBox(gameOverView, inputs, pointBox);
+        gameOver.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
+
+        bPane.setTop(gameOver);
+        
+        stage.setWidth(389);
+        stage.setHeight(706);
+        
+        EventHandler<MouseEvent> gameRestartHandler = new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                System.out.println("Game start");
+                startGameLoop();
+            }
+        };
+
+        EventHandler<MouseEvent> gameExitHandler = new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                System.out.println("Game exit");
+                Platform.exit();
+            }
+        };
+
+
+        gameRestart.addEventFilter(MouseEvent.MOUSE_CLICKED, gameRestartHandler);
+        gameExit.addEventFilter(MouseEvent.MOUSE_CLICKED, gameExitHandler);
+
+        stage.setScene(scene);
+        stage.show();
+
+        draw(menuGrid);
+    }
+
     public void startGameLoop() {
 
         tetrisBoard = new Board();
@@ -133,6 +202,7 @@ public class Main extends Application {
         scene = new Scene(bPane);  //scene will have dimensions equal to the grid
 
         HBox pointsBox = new HBox(pointsLabel);
+        pointsBox.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
         pointsBox.setAlignment(Pos.TOP_CENTER);
         bPane.setTop(pointsBox);
         
@@ -152,10 +222,8 @@ public class Main extends Application {
                         if (event.getCode() == KeyCode.A) {
                             tetrisBoard = tetrisBoard.pieceCounterOrClockwise(true);
                             System.out.println("APRESSED");
-                            pointsLabel.setText("Points: " + Integer.toString(tetrisBoard.getPoints()));
                             draw(grid);
                         }
-
                         /**
                          * Rotate piece clockwise on D press
                          */
@@ -164,7 +232,6 @@ public class Main extends Application {
                             System.out.println("DPRESSED");
                             draw(grid);
                         }
-
                         /**
                          * Force piece down on S or Down press
                          */
@@ -187,6 +254,7 @@ public class Main extends Application {
                         }
                     }
                 }
+                
         );
 
 
@@ -197,8 +265,10 @@ public class Main extends Application {
             try{
                 tetrisBoard = tetrisBoard.piecePlaceAndFall();
             } catch (initPlaceCollision e) {
+                finalScore = tetrisBoard.getPoints();
+                tetrisBoard = new Board();
                 System.out.println("HANDLE GAME OVER");
-
+                gameOver();
             }
             draw(grid);
         }));
@@ -246,6 +316,7 @@ public class Main extends Application {
         }
 
         pointsLabel.setText("Score: " + Integer.toString(tetrisBoard.getPoints()));
+        pointsLabel.setTextFill(Color.WHITE);
 
         stage.setScene(scene);
         stage.show();
