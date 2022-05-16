@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="jTetrisFX:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/jTetrisFX_jar</output-path>
+    <root id="archive" name="jTetrisFX.jar">
+      <element id="module-output" name="jTetrisFX" />
+    </root>
+  </artifact>
+</component>

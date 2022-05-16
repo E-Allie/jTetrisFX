@@ -1,8 +1,11 @@
 package Logic.Tetraminoes;
 
 import Logic.Point;
-import javafx.scene.paint.Color;
+import java.awt.Color;
 
+/**
+ * The J Tetramino.
+ */
 public class JTetramino extends Tetramino {
 
     public JTetramino(Point center) {

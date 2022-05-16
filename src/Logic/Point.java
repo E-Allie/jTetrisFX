@@ -1,10 +1,15 @@
 package Logic;
 
-import javafx.scene.paint.Color;
+import java.awt.Color;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Point {
+/**
+ * A point Structure.
+ * Keeps internal track of its location in a hypothetical 2D Array, as well as occupation state and color.
+ */
+public class Point implements Serializable {
 
     /**
      * Constructs a default, black, unoccupied, point.
@@ -41,7 +46,7 @@ public class Point {
     }
 
     private Color c;
-    private boolean occupied;
+    private final boolean occupied;
     private int row;
     private int col;
 
@@ -68,18 +73,31 @@ public class Point {
         return occupied;
     }
 
+    /**
+     * Helper Functions to get or set the internal integer row or col of Point.
+     * @return A point's internal row or col.
+     */
     public int getRow() {
         return row;
     }
 
+    /**
+     * @see #getRow()
+     */
     public void setRow(int row) {
         this.row = row;
     }
 
+    /**
+     * @see #getRow()
+     */
     public int getCol() {
         return col;
     }
 
+    /**
+     * @see #getRow()
+     */
     public void setCol(int col) {
         this.col = col;
     }

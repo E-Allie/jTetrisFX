@@ -1,13 +1,22 @@
 package Logic.Tetraminoes;
 
 import Logic.Point;
-import javafx.scene.paint.Color;
+import java.awt.Color;
+
+import java.io.Serializable;
 
 /**
  * The abstract tetramino.
  */
-public abstract class Tetramino {
+public abstract class Tetramino implements Serializable {
 
+    /**
+     * A total constructor for the tetramino.
+     * @param color
+     * @param center
+     * @param rotationState
+     * @param shape
+     */
     public Tetramino(Color color, Point center, RotationState rotationState, TetraminoShape shape) {
         this.color = color;
         this.center = center;
@@ -20,6 +29,9 @@ public abstract class Tetramino {
     private final Point center;
 
 
+    /**
+     * All Possible tetramino shapes.
+     */
     enum TetraminoShape {
         I, L, O, J, T, Z, S
     }
@@ -70,6 +82,10 @@ public abstract class Tetramino {
         }
     }
 
+    /**
+     * The Rotation state of a tetramino!
+     * Can take 1 of 4 values [besides null], and implements wrapping.
+     */
     private final RotationState rotationState;
 
 
@@ -87,13 +103,19 @@ public abstract class Tetramino {
         return center;
     }
 
+    /**
+     * Returns a tetramino with a new center, using the shape and rotation of the caller tetramino.
+     * @param row A new row as integer.
+     * @param col A new column as integer.
+     * @return A new, identical tetramino with updated center.
+     */
     public Tetramino newCenter(int row, int col) {
         return createTetramino(shape, new Point(getColor(), row, col), rotationState);
     };
 
 
     /**
-     * Yields a new tetramino that is either counter-or-clockwise rotated.
+     * Yields a new tetramino that is clockwise rotated.
      * @return The rotated Tetramino [by means of updating the RotationState]
      */
     public Tetramino rotateClockwise() {
@@ -101,14 +123,15 @@ public abstract class Tetramino {
     };
 
     /**
-     * @see #rotateClockwise()
+     * Yields a new tetramino that is counter-clockwise rotated.
+     * @return The rotated Tetramino [by means of updating the RotationState]
      */
     public Tetramino rotateCounterclockwise(){
         return createTetramino(shape, center, rotationState.rotateCounterClockwise());
     }
 
     /**
-     * Yields a new tetramino with center shifted in the requested direction.
+     * Yields a new tetramino with center shifted down 1.
      * @return A new tetramino with center shifted.
      */
     public Tetramino moveDown() {
@@ -116,20 +139,29 @@ public abstract class Tetramino {
     };
 
     /**
-     * @see #moveDown()
+     * Yields a new tetramino with center shifted left 1.
+     * @return A new tetramino with center shifted.
      */
     public Tetramino moveLeft() {
         return createTetramino(shape, center.getLeft(), rotationState);
     }
 
     /**
-     * @see #moveDown() 
+     * Yields a new tetramino with center shifted right 1.
+     * @return A new tetramino with center shifted.
      */
     public Tetramino moveRight() {
         return createTetramino(shape, center.getRight(), rotationState);
     }
 
 
+    /**
+     * Creates a tetramino [or rather, a subclass of it] with Given Shape, Center, and rotation state.
+     * @param shape The Tetramino Type/Shape
+     * @param center The Center as a Point
+     * @param rotationState The rotation state of the tetramino
+     * @return A Tetramino with the input properties
+     */
     protected static Tetramino createTetramino(TetraminoShape shape, Point center, Tetramino.RotationState rotationState) {
         switch (shape) {
             case I:

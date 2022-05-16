@@ -9,8 +9,9 @@ import java.util.List;
 /**
  * This will contain spawnable pieces.
  * The tetris standard denotes we have a shuffled bag of the 7 tetraminoes.
+ * This is the simplest type of Standard Compliant bag.
  */
-public class BagofPieces {
+public class BagofPieces implements Bags {
     private ArrayList<Tetramino> store = new ArrayList<>(7);
 
     /**

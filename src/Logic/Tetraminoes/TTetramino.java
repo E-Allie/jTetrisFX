@@ -1,16 +1,19 @@
 package Logic.Tetraminoes;
 
 import Logic.Point;
-import javafx.scene.paint.Color;
+import java.awt.Color;
 
+/**
+ * The T Tetramino.
+ */
 public class TTetramino extends Tetramino {
 
     public TTetramino(Point center) {
-        super(Color.PURPLE, center, RotationState.O, TetraminoShape.T);
+        super(Color.magenta, center, RotationState.O, TetraminoShape.T);
     }
 
     public TTetramino(Point center, RotationState rotationState) {
-        super(Color.PURPLE, center, rotationState, TetraminoShape.T);
+        super(Color.magenta, center, rotationState, TetraminoShape.T);
     }
 
     /**

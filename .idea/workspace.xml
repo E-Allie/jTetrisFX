@@ -1,12 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="jTetrisFX:jar" />
+    </artifacts-to-build>
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a69c8f90-b72f-4217-86ac-02d987332fd8" name="Changes" comment="Ground work for clearing rows and adding points.">
+    <list default="true" id="a24da964-766f-4b1c-a314-99a8de1f59a8" name="Changes" comment="Clearing rows fully works, points should be added. TODO: display them in GUI">
+      <change afterPath="$PROJECT_DIR$/src/Logic/Tetraminoes/Bags.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Logic/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logic/Board.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Logic/Movers/Controller.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Logic/Movers/DemoModeMover.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Logic/Point.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logic/Point.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Logic/Tetraminoes/BagofPieces.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logic/Tetraminoes/BagofPieces.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Logic/Tetraminoes/ITetramino.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logic/Tetraminoes/ITetramino.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Logic/Tetraminoes/JTetramino.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logic/Tetraminoes/JTetramino.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Logic/Tetraminoes/LTetramino.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logic/Tetraminoes/LTetramino.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Logic/Tetraminoes/OTetramino.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logic/Tetraminoes/OTetramino.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Logic/Tetraminoes/STetramino.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logic/Tetraminoes/STetramino.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Logic/Tetraminoes/TTetramino.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logic/Tetraminoes/TTetramino.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Logic/Tetraminoes/Tetramino.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logic/Tetraminoes/Tetramino.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Logic/Tetraminoes/ZTetramino.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logic/Tetraminoes/ZTetramino.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -17,10 +36,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JavaFXApplication" />
-        <option value="FxmlFile" />
         <option value="Interface" />
-        <option value="Class" />
       </list>
     </option>
   </component>
@@ -30,7 +46,6 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectId" id="28fLL8HOJqtwMLipHYEnoIcDaEv" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -38,26 +53,15 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/home/eve/Desktop/groupprojtemp/jTetrisFX",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
-    "project.structure.last.edited": "Project",
+    "project.structure.last.edited": "Artifacts",
     "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "Debugger_Data_Views_Java"
+    "project.structure.side.proportion": "0.2"
   }
 }]]></component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src" />
-    </key>
-  </component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
@@ -72,65 +76,7 @@
       </list>
     </recent_temporary>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
-    <task active="true" id="Default" summary="Default task">
-      <changelist id="a69c8f90-b72f-4217-86ac-02d987332fd8" name="Changes" comment="" />
-      <created>1651602635340</created>
-      <option name="number" value="Default" />
-      <option name="presentableId" value="Default" />
-      <updated>1651602635340</updated>
-      <workItem from="1651602637306" duration="14336000" />
-      <workItem from="1651701384172" duration="7393000" />
-      <workItem from="1651760126533" duration="259000" />
-      <workItem from="1651782766421" duration="6450000" />
-      <workItem from="1651800430329" duration="67000" />
-      <workItem from="1651800588784" duration="9961000" />
-      <workItem from="1652366983760" duration="15339000" />
-    </task>
-    <task id="LOCAL-00001" summary="We lay foundations to the Tetris Project.&#10;As of now we have rudimentarily implemented a board, an example keypress [just exits], and a gameloop [displays random colored tiles per second]">
-      <created>1651616374055</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1651616374055</updated>
-    </task>
-    <task id="LOCAL-00002" summary="A default board now has proper boundaries! [Except the top but we shall ignore that for now]&#10;&#10;Full rotation works, Down movement Works, Gravity Works, with collision">
-      <created>1652138922537</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1652138922537</updated>
-    </task>
-    <task id="LOCAL-00003" summary="Left and right movement is now possible and functional.">
-      <created>1652140174291</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1652140174291</updated>
-    </task>
-    <task id="LOCAL-00004" summary="Refactored Tetramino to be abstract [last time I promise]&#10;&#10;Fixed the draw function lag [by clearing old grids]">
-      <created>1652378898658</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1652378898658</updated>
-    </task>
-    <task id="LOCAL-00005" summary="All Tetraminoes now added and spawning.&#10;Separated the bag of pieces from the board.">
-      <created>1652385062929</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1652385062930</updated>
-    </task>
-    <task id="LOCAL-00006" summary="Ground work for clearing rows and adding points.">
-      <created>1652387095561</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1652387095561</updated>
-    </task>
-    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -146,29 +92,5 @@
         </entry>
       </map>
     </option>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="We lay foundations to the Tetris Project.&#10;As of now we have rudimentarily implemented a board, an example keypress [just exits], and a gameloop [displays random colored tiles per second]" />
-    <MESSAGE value="The tetramino class was revamped into an interface.&#10;Most of the code was modified into a more Functional Paradigm.&#10;&#10;A piece now falls, but rotation nor array bounds detection exist." />
-    <MESSAGE value="A default board now has proper boundaries! [Except the top but we shall ignore that for now]&#10;&#10;Full rotation works, Down movement Works, Gravity Works, with collision" />
-    <MESSAGE value="Left and right movement is now possible and functional." />
-    <MESSAGE value="Refactored Tetramino to be abstract [last time I promise]&#10;&#10;Fixed the draw function lag [by clearing old grids]" />
-    <MESSAGE value="All Tetraminoes now added and spawning.&#10;Separated the bag of pieces from the board." />
-    <MESSAGE value="Ground work for clearing rows and adding points." />
-    <option name="LAST_COMMIT_MESSAGE" value="Ground work for clearing rows and adding points." />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <breakpoint enabled="true" type="java-exception">
-          <properties class="java.lang.IndexOutOfBoundsException" package="java.lang" />
-          <option name="timeStamp" value="1" />
-        </breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
-  </component>
-  <component name="XSLT-Support.FileAssociations.UIState">
-    <expand />
-    <select />
   </component>
 </project>
